@@ -3,72 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>معايدة لنور</title>
+<title>عيد مبارك - نور</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
 
 <style>
   body {
     margin: 0;
     padding: 0;
-    background: #6a0dad; /* اللون البنفسجي */
-    overflow: hidden;
-    text-align: center;
+    background-color: #6a0dad; /* البنفسجي */
     color: white;
-    font-family: 'Press Start 2P', cursive; /* استخدام خط البكسل */
+    font-family: 'Cairo', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    text-align: center;
+    overflow: hidden;
   }
 
-  /* زخارف علوية */
-  .decor {
+  /* الزخارف العلوية */
+  .stars {
     position: absolute;
     top: 5%;
-    font-size: 1.5rem;
-    opacity: 0.6;
-    letter-spacing: 10px;
-  }
-
-  /* تنسيق النص (عيدچ مبارك) */
-  h1 {
     font-size: 1.8rem;
-    margin-bottom: 30px;
-    margin-top: 0;
+    letter-spacing: 15px;
+    opacity: 0.8;
   }
 
-  /* تنسيق صورة العملة (الذي ذكرته أنت) */
-  img {
-    margin-top: 40px; 
-    width: 250px;
-    border-radius: 10px;
-    animation: fadeIn 3s ease-in-out; /* حركة الظهور */
+  h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
   }
 
-  /* أنيميشن الظهور (Fade In) */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  /* تنسيق الصورة */
+  .money-img {
+    width: 280px;
+    max-width: 85%;
+    border-radius: 15px;
+    border: 3px solid #f7b731; /* إطار ذهبي */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: none; /* مخفية حتى نضغط الزر */
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   }
 
+  /* زر المفاجأة */
+  .btn {
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    background: #f7b731;
+    color: #6a0dad;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
 </style>
 </head>
-
 <body>
 
-  <div class="decor">🌙 ✨ 🕌 ✨ 🌙</div>
+  <div class="stars">🌙 ✨ 🕌 ✨ 🌙</div>
 
   <h1>عيدچ مبارك نور 🫵🏼</h1>
 
-  <img src="money.JPG" alt="عيدية نور">
+  <img src="Money.jpg.JPG" id="gift" class="money-img" alt="عيدية">
+
+  <button id="playBtn" class="btn" onclick="showSurprise()">اضغطي هنا للمفاجأة 🎁</button>
+
+  <audio id="audio">
+    <source src="https://www.myinstants.com/media/sounds/eid-song.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function showSurprise() {
+      // إظهار الصورة وتشغيل الصوت وإخفاء الزر
+      document.getElementById('gift').style.display = 'block';
+      document.getElementById('audio').play();
+      document.getElementById('playBtn').style.display = 'none';
+    }
+  </script>
 
 </body>
 </html>

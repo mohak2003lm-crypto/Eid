@@ -11,8 +11,7 @@
   body {
     margin: 0;
     padding: 0;
-    background: #4b0082; /* بنفسجي غامق ملكي */
-    background: linear-gradient(to bottom, #6a0dad, #240b36);
+    background: linear-gradient(to bottom, #6a0dad, #240b36); /* تدرج بنفسجي فخم */
     color: white;
     font-family: 'Cairo', sans-serif;
     display: flex;
@@ -25,19 +24,20 @@
     position: relative;
   }
 
-  /* زخارف متحركة تملأ الخلفية */
-  .background-decor {
+  /* زخارف الخلفية المتساقطة */
+  .bg-decor {
     position: absolute;
-    top: -10%;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 110%;
-    z-index: 0;
+    height: 100%;
+    z-index: 1;
     pointer-events: none;
   }
 
   .symbol {
     position: absolute;
-    color: rgba(247, 183, 49, 0.3); /* ذهبي شفاف */
+    color: rgba(247, 183, 49, 0.4);
     font-size: 1.5rem;
     animation: fall linear infinite;
   }
@@ -46,30 +46,33 @@
     to { transform: translateY(110vh) rotate(360deg); }
   }
 
-  /* محتوى الصفحة */
-  .content {
+  /* المحتوى الرئيسي */
+  .container {
     z-index: 10;
     position: relative;
+    padding: 20px;
   }
 
   h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-shadow: 0 0 20px rgba(247, 183, 49, 0.5);
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
   }
 
-  .money-img {
+  /* تنسيق الصورة (العيدية) */
+  .gift-img {
     width: 280px;
-    max-width: 80%;
+    max-width: 85%;
     border-radius: 20px;
-    border: 4px solid #f7b731;
-    box-shadow: 0 0 40px rgba(0,0,0,0.6);
-    display: none;
-    animation: zoomIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    border: 4px solid #f7b731; /* إطار ذهبي */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    display: none; /* مخفية بالبداية */
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   }
 
+  /* زر المفاجأة */
   .btn {
-    padding: 18px 45px;
+    padding: 15px 40px;
     font-size: 1.3rem;
     background: #f7b731;
     color: #4b0082;
@@ -77,13 +80,13 @@
     border-radius: 50px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    transition: 0.3s;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: 0.3s ease;
   }
 
-  .btn:hover { transform: scale(1.1); background: #fff; }
+  .btn:active { transform: scale(0.9); }
 
-  @keyframes zoomIn {
+  @keyframes popIn {
     from { transform: scale(0); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
   }
@@ -91,44 +94,45 @@
 </head>
 <body>
 
-  <div class="background-decor" id="decorContainer"></div>
+  <div class="bg-decor" id="decor"></div>
 
-  <div class="content">
+  <div class="container">
     <h1>عيدچ مبارك نور 🫵🏼</h1>
     
-    <img src="Money.jpg.JPG" id="gift" class="money-img" alt="العيدية">
+    <img src="money.jpg" id="moneyImg" class="gift-img" alt="عيدية">
 
-    <br>
-    <button id="playBtn" class="btn" onclick="startShow()">فتحي العيدية 🎁</button>
+    <br><br>
+    <button id="surpriseBtn" class="btn" onclick="openSurprise()">اضغطي للمفاجأة 🎁</button>
   </div>
 
   <audio id="eidMusic" loop>
-    <source src="https://www.myinstants.com/media/sounds/eid-song.mp3" type="audio/mpeg">
+    <source src="music.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // توليد زخارف عشوائية تتساقط
-    const container = document.getElementById('decorContainer');
-    const symbols = ['🌙', '✨', '🕌', '⭐', '🎈'];
+    // توليد زخارف عشوائية
+    const decorContainer = document.getElementById('decor');
+    const icons = ['🌙', '✨', '🕌', '⭐'];
     
-    for (let i = 0; i < 40; i++) {
-      let div = document.createElement('div');
-      div.className = 'symbol';
-      div.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-      div.style.left = Math.random() * 100 + 'vw';
-      div.style.animationDuration = (Math.random() * 3 + 2) + 's';
-      div.style.delay = Math.random() * 5 + 's';
-      div.style.opacity = Math.random();
-      container.appendChild(div);
+    for (let i = 0; i < 35; i++) {
+      let span = document.createElement('span');
+      span.className = 'symbol';
+      span.innerText = icons[Math.floor(Math.random() * icons.length)];
+      span.style.left = Math.random() * 100 + 'vw';
+      span.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      span.style.opacity = Math.random();
+      decorContainer.appendChild(span);
     }
 
-    function startShow() {
-      document.getElementById('gift').style.display = 'inline-block';
-      document.getElementById('eidMusic').play();
-      document.getElementById('playBtn').style.display = 'none';
-      
-      // إضافة تأثير هز خفيف للنص عند التشغيل
-      document.querySelector('h1').style.animation = 'none';
+    // وظيفة المفاجأة
+    function openSurprise() {
+      const img = document.getElementById('moneyImg');
+      const music = document.getElementById('eidMusic');
+      const btn = document.getElementById('surpriseBtn');
+
+      img.style.display = 'inline-block'; // إظهار الصورة
+      music.play(); // تشغيل الموسيقى
+      btn.style.display = 'none'; // إخفاء الزر
     }
   </script>
 

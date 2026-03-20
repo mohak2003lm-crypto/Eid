@@ -8,86 +8,56 @@
 <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
 <style>
   body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #6a0dad, #240b36); /* تدرج بنفسجي فخم */
-    color: white;
-    /* تطبيق خط Bungee Shade */
-    font-family: 'Bungee Shade', cursive; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    overflow: hidden;
+    margin: 0; padding: 0;
+    background: linear-gradient(to bottom, #6a0dad, #240b36);
+    color: white; font-family: 'Bungee Shade', cursive;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100vh; text-align: center; overflow: hidden;
     position: relative;
   }
 
-  /* زخارف الخلفية المتساقطة للعيد */
   .bg-decor {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1; pointer-events: none;
   }
 
   .symbol {
-    position: absolute;
-    color: rgba(247, 183, 49, 0.4);
-    font-size: 1.5rem;
-    animation: fall linear infinite;
+    position: absolute; color: rgba(247, 183, 49, 0.4);
+    font-size: 1.5rem; animation: fall linear infinite;
   }
 
-  /* تأثير تساقط الزخارف للعيد */
   @keyframes fall {
     0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.8; }
-    50% { transform: translateY(50vh) rotate(180deg); opacity: 1; color: #ff00ff; /* تغيير اللون منتصف التساقط */ }
+    50% { transform: translateY(50vh) rotate(180deg); opacity: 1; color: #ff00ff; }
     100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
   }
 
-  /* المحتوى الرئيسي */
-  .container {
-    z-index: 10;
-    position: relative;
-    padding: 20px;
-  }
+  .container { z-index: 10; position: relative; padding: 20px; }
 
   h1 {
-    font-size: 3rem; /* حجم كبير للخط المميز */
-    margin-bottom: 25px;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    color: #ffffff; /* تم تغيير لون النص للون الأبيض */
+    font-size: 2.5rem; margin-bottom: 20px;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.3); color: #ffffff;
   }
 
-  /* تنسيق الصورة (العيدية) - بدون إطار أو حواف أو ظلال */
+  /* تنسيق الصور بدون حواف */
   .gift-img {
-    width: 280px;
-    max-width: 85%;
-    border-radius: 20px;
-    display: none; /* مخفية بالبداية */
+    width: 250px; max-width: 80%; border-radius: 15px;
+    display: none; margin: 10px auto;
     animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   }
 
-  /* زر المفاجأة */
   .btn {
-    padding: 18px 45px;
-    font-size: 1.5rem;
-    background: #f7b731;
-    color: #4b0082;
-    border: none;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    transition: 0.3s ease;
-    font-family: 'Bungee Shade', cursive; /* تطبيق الخط على الزر أيضاً */
+    padding: 15px 35px; font-size: 1.2rem;
+    background: #f7b731; color: #4b0082;
+    border: none; border-radius: 50px; font-weight: bold;
+    cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: 0.3s ease; font-family: 'Bungee Shade', cursive;
+    margin-top: 15px;
   }
 
-  .btn:active { transform: scale(0.9); }
+  /* زر المضاعفة بلون مختلف للتميز */
+  #doubleBtn { background: #00ffcc; color: #240b36; display: none; }
 
   @keyframes popIn {
     from { transform: scale(0); opacity: 0; }
@@ -100,45 +70,54 @@
   <div class="bg-decor" id="decor"></div>
 
   <div class="container">
-    <h1>هابي عيد نورة 🫵🏼🎉</h1>
+    <h1>هابي عيد نور 🎉</h1>
     
-    <img src="money.jpg" id="moneyImg" class="gift-img" alt="عيدية">
+    <img src="money.jpg" id="moneyImg" class="gift-img">
+    <img src="gor.JPG" id="gorImg" class="gift-img">
 
-    <br><br>
+    <br>
     <button id="surpriseBtn" class="btn" onclick="openSurprise()">العيدية 🎁</button>
+    <button id="doubleBtn" class="btn" onclick="doubleSurprise()">مضاعفة العيدية 🔥</button>
   </div>
 
-  <audio id="eidMusic" loop>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="music1"><source src="music.mp3" type="audio/mpeg"></audio>
+  <audio id="music2"><source src="fa.mp3" type="audio/mpeg"></audio>
 
   <script>
-    // توليد زخارف عشوائية للعيد
+    // توليد الزخارف
     const decorContainer = document.getElementById('decor');
     const icons = ['🌙', '✨', '🕌', '⭐', '🎈', '🎆', '🎁'];
-    const colors = ['#f7b731', '#ff00ff', '#00ffff', '#00ff00']; // ألوان عشوائية للزخارف
+    const colors = ['#f7b731', '#ff00ff', '#00ffff', '#00ff00'];
     
     for (let i = 0; i < 40; i++) {
       let span = document.createElement('span');
       span.className = 'symbol';
       span.innerText = icons[Math.floor(Math.random() * icons.length)];
       span.style.left = Math.random() * 100 + 'vw';
-      span.style.top = '-' + (Math.random() * 100) + 'vh'; // بداية عشوائية خارج الشاشة
+      span.style.top = '-' + (Math.random() * 100) + 'vh';
       span.style.animationDuration = (Math.random() * 5 + 3) + 's';
-      span.style.color = colors[Math.floor(Math.random() * colors.length)]; // لون عشوائي
-      span.style.opacity = Math.random();
+      span.style.color = colors[Math.floor(Math.random() * colors.length)];
       decorContainer.appendChild(span);
     }
 
-    // وظيفة المفاجأة
+    // المفاجأة الأولى
     function openSurprise() {
-      const img = document.getElementById('moneyImg');
-      const music = document.getElementById('eidMusic');
-      const btn = document.getElementById('surpriseBtn');
+      document.getElementById('moneyImg').style.display = 'block';
+      document.getElementById('music1').play();
+      document.getElementById('surpriseBtn').style.display = 'none';
+      document.getElementById('doubleBtn').style.display = 'inline-block'; // إظهار زر المضاعفة
+    }
 
-      img.style.display = 'inline-block'; // إظهار الصورة
-      music.play(); // تشغيل الموسيقى
-      btn.style.display = 'none'; // إخفاء الزر
+    // المفاجأة الثانية
+    function doubleSurprise() {
+      const m1 = document.getElementById('music1');
+      const m2 = document.getElementById('music2');
+      const img2 = document.getElementById('gorImg');
+
+      m1.pause(); // إيقاف الموسيقى الأولى
+      m2.play();  // تشغيل الموسيقى الثانية
+      img2.style.display = 'block'; // إظهار الصورة الثانية
+      document.getElementById('doubleBtn').style.display = 'none'; // إخفاء الزر
     }
   </script>
 

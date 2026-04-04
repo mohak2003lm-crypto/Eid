@@ -17,14 +17,14 @@
     position: relative;
   }
 
-  /* الزر القرمزي الغامق مع الظل الأبيض والموقع الجديد */
+  /* الزر القرمزي الأفتح مع الظل الأبيض والموقع الجديد */
   .danger-btn {
     position: absolute;
-    top: 50px; /* نزلته شوي من فوق */
+    top: 50px; 
     left: 30px;
     padding: 12px 25px;
     font-size: 1rem;
-    background: #4a0000; /* قرمزي غامق جداً */
+    background: #ff1a1a; /* لون قرمزي أفتح وأوضح */
     color: white;
     border: none;
     border-radius: 12px;
@@ -33,11 +33,12 @@
     transition: 0.3s;
     font-family: 'Bungee Shade', cursive;
     /* ظل أبيض خلف الزر */
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
   }
 
   .danger-btn:hover {
     transform: scale(1.1);
+    background: #ff4d4d; /* يفتح أكثر عند التمرير */
     box-shadow: 0 0 25px rgba(255, 255, 255, 0.9);
   }
 
@@ -75,11 +76,11 @@
 
   #doubleBtn { background: #00ffcc; color: #240b36; display: none; }
 
-  /* صفحة الـ QR القرمزية المتدرجة */
+  /* صفحة الـ QR القرمزية المتدرجة (ثابتة بدون عناصر متساقطة) */
   .romantic-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     /* تدرج من القرمزي للون أغمق */
-    background: linear-gradient(135deg, #800000 0%, #330000 100%);
+    background: linear-gradient(135deg, #a00000 0%, #4d0000 100%);
     z-index: 2000; display: none;
     flex-direction: column; align-items: center; justify-content: center;
   }
@@ -100,7 +101,7 @@
   <button class="danger-btn" onclick="goRomantic()">لاتدوسني 🚫</button>
 
   <div id="romanticPage" class="romantic-overlay">
-    <h1 style="color: #ffcccc; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">مفاجأة نورة 🌹</h1>
+    <h1 style="color: #ffcccc; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">مفاجأة نورة 🎁</h1>
     <img src="qr.jpg" alt="QR Code" class="qr-img">
     <p style="margin-top: 20px; font-size: 1.2rem; color: #ff9999;">امسحي الكود يا جميلة</p>
   </div>
@@ -122,23 +123,22 @@
   <script>
     const decorContainer = document.getElementById('decor');
     const normalIcons = ['🌙', '✨', '🕌', '⭐', '🎈'];
-    const flowerIcons = ['🌸', '🌹', '🌺', '🌷', '💐']; // ورود للصفحة الجديدة
     
-    function createDecor(iconsArray) {
+    // إنشاء الزينة المتساقطة
+    function createDecor() {
       decorContainer.innerHTML = '';
       for (let i = 0; i < 40; i++) {
         let span = document.createElement('span');
         span.className = 'symbol';
-        span.innerText = iconsArray[Math.floor(Math.random() * iconsArray.length)];
+        span.innerText = normalIcons[Math.floor(Math.random() * normalIcons.length)];
         span.style.left = Math.random() * 100 + 'vw';
         span.style.animationDuration = (Math.random() * 5 + 3) + 's';
-        span.style.fontSize = (Math.random() * 1 + 1) + 'rem';
         decorContainer.appendChild(span);
       }
     }
 
     // البدء بالزينة العادية
-    createDecor(normalIcons);
+    createDecor();
 
     function openSurprise() {
       document.getElementById('moneyImg').style.display = 'block';
@@ -154,10 +154,11 @@
       document.getElementById('doubleBtn').style.display = 'none';
     }
 
-    // الانتقال للصفحة القرمزية مع الورود والـ QR
+    // الانتقال للصفحة القرمزية وإيقاف التساقط
     function goRomantic() {
       document.getElementById('romanticPage').style.display = 'flex';
-      createDecor(flowerIcons); // تغيير الزينة لورود متوزعة
+      // إيقاف الزينة المتساقطة (الورود والقلوب) عن طريق حذفها
+      decorContainer.innerHTML = ''; 
     }
   </script>
 </body>

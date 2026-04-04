@@ -17,27 +17,28 @@
     position: relative;
   }
 
-  /* الزر الجديد: فوق يسار الصفحة */
+  /* الزر القرمزي الغامق مع الظل الأبيض والموقع الجديد */
   .danger-btn {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    background: #800000; /* لون مارون أغمق */
+    top: 50px; /* نزلته شوي من فوق */
+    left: 30px;
+    padding: 12px 25px;
+    font-size: 1rem;
+    background: #4a0000; /* قرمزي غامق جداً */
     color: white;
-    border: 2px solid #500000;
-    border-radius: 10px;
+    border: none;
+    border-radius: 12px;
     cursor: pointer;
     z-index: 1000;
     transition: 0.3s;
     font-family: 'Bungee Shade', cursive;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    /* ظل أبيض خلف الزر */
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
   }
 
   .danger-btn:hover {
-    background: #a00000;
-    transform: scale(1.05);
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.9);
   }
 
   .bg-decor {
@@ -52,7 +53,6 @@
 
   @keyframes fall {
     0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.8; }
-    50% { transform: translateY(50vh) rotate(180deg); opacity: 1; color: #ff00ff; }
     100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
   }
 
@@ -75,12 +75,21 @@
 
   #doubleBtn { background: #00ffcc; color: #240b36; display: none; }
 
-  /* صفحة المفاجأة القرمزية */
+  /* صفحة الـ QR القرمزية المتدرجة */
   .romantic-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #990033; /* قرمزي رومانسي غامق */
+    /* تدرج من القرمزي للون أغمق */
+    background: linear-gradient(135deg, #800000 0%, #330000 100%);
     z-index: 2000; display: none;
     flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  .qr-img {
+    width: 280px;
+    border: 5px solid white;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.3);
+    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
@@ -88,11 +97,12 @@
 </head>
 <body>
 
-  <button class="danger-btn" onclick="goRomantic()">لاتدوسني 🙄</button>
+  <button class="danger-btn" onclick="goRomantic()">لاتدوسني 🚫</button>
 
   <div id="romanticPage" class="romantic-overlay">
-    <h1 style="font-size: 3rem;">🌹 🌹</h1>
-    <button class="btn" onclick="location.reload()" style="background: white;">اخرجني من هنا!</button>
+    <h1 style="color: #ffcccc; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">مفاجأة نورة 🌹</h1>
+    <img src="qr.jpg" alt="QR Code" class="qr-img">
+    <p style="margin-top: 20px; font-size: 1.2rem; color: #ff9999;">امسحي الكود يا جميلة</p>
   </div>
 
   <div class="bg-decor" id="decor"></div>
@@ -110,17 +120,25 @@
   <audio id="music2"><source src="fa.mp3" type="audio/mpeg"></audio>
 
   <script>
-    // توزيع الزخارف
     const decorContainer = document.getElementById('decor');
-    const icons = ['🌙', '✨', '🕌', '⭐', '🎈'];
-    for (let i = 0; i < 40; i++) {
-      let span = document.createElement('span');
-      span.className = 'symbol';
-      span.innerText = icons[Math.floor(Math.random() * icons.length)];
-      span.style.left = Math.random() * 100 + 'vw';
-      span.style.animationDuration = (Math.random() * 5 + 3) + 's';
-      decorContainer.appendChild(span);
+    const normalIcons = ['🌙', '✨', '🕌', '⭐', '🎈'];
+    const flowerIcons = ['🌸', '🌹', '🌺', '🌷', '💐']; // ورود للصفحة الجديدة
+    
+    function createDecor(iconsArray) {
+      decorContainer.innerHTML = '';
+      for (let i = 0; i < 40; i++) {
+        let span = document.createElement('span');
+        span.className = 'symbol';
+        span.innerText = iconsArray[Math.floor(Math.random() * iconsArray.length)];
+        span.style.left = Math.random() * 100 + 'vw';
+        span.style.animationDuration = (Math.random() * 5 + 3) + 's';
+        span.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+        decorContainer.appendChild(span);
+      }
     }
+
+    // البدء بالزينة العادية
+    createDecor(normalIcons);
 
     function openSurprise() {
       document.getElementById('moneyImg').style.display = 'block';
@@ -136,18 +154,10 @@
       document.getElementById('doubleBtn').style.display = 'none';
     }
 
+    // الانتقال للصفحة القرمزية مع الورود والـ QR
     function goRomantic() {
       document.getElementById('romanticPage').style.display = 'flex';
-      // تغيير الرموز لقلوب
-      decorContainer.innerHTML = '';
-      for (let i = 0; i < 30; i++) {
-        let span = document.createElement('span');
-        span.className = 'symbol';
-        span.innerText = '❤️';
-        span.style.left = Math.random() * 100 + 'vw';
-        span.style.animationDuration = (Math.random() * 2 + 1) + 's';
-        decorContainer.appendChild(span);
-      }
+      createDecor(flowerIcons); // تغيير الزينة لورود متوزعة
     }
   </script>
 </body>

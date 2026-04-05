@@ -9,7 +9,8 @@
 <style>
   body {
     margin: 0; padding: 0;
-    background: linear-gradient(to bottom, #6a0dad, #240b36);
+    /* خلفية الصفحة الرئيسية القرمزية الرومانسية */
+    background: linear-gradient(135deg, #a00000 0%, #4d0000 100%);
     color: white; font-family: 'Bungee Shade', cursive;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
@@ -17,40 +18,21 @@
     position: relative;
   }
 
-  .danger-btn {
-    position: absolute;
-    top: 80px; 
-    left: 30px;
-    padding: 8px 15px; 
-    font-size: 1.3rem;
-    background: #b30000;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: 1000;
-    transition: 0.3s;
-    font-family: 'Bungee Shade', cursive;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-    width: auto;
-    display: inline-block;
-  }
-
-  /* تنسيق الشعر: تصغير الخط وزيادة وقت الحركة */
+  /* تنسيق الشعر: يظهر فوراً ويتحرك بسرعة متوازنة */
   .poem-text {
     position: absolute;
-    bottom: -600px;
-    width: 95%; /* أخذ عرض أكبر لضمان وسع البيت */
+    bottom: -600px; /* يبدأ من الأسفل */
+    width: 95%;
     font-family: 'Amiri', serif;
-    font-size: 1.2rem; /* تصغير الخط ليناسب عرض الشاشة */
+    font-size: 1.2rem;
     color: rgba(255, 220, 220, 0.8);
-    z-index: 2100;
+    z-index: 5; /* خلف المحتوى الرئيسي */
     pointer-events: none;
     white-space: pre-line;
     line-height: 2.5; 
-    /* جعل الحركة أبطأ (25 ثانية) لراحة العين */
-    animation: slideUp 25s linear infinite; 
-    display: none;
+    /* سرعة الحركة متوازنة (15 ثانية) */
+    animation: slideUp 15s linear infinite; 
+    display: block; /* ظاهر فوراً */
   }
 
   @keyframes slideUp {
@@ -60,55 +42,57 @@
     100% { transform: translateY(-160vh); opacity: 0; }
   }
 
-  .romantic-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, #a00000 0%, #4d0000 100%);
-    z-index: 2000; display: none;
-    flex-direction: column; align-items: center; justify-content: center;
+  .bg-decor { 
+    position: absolute;  top: 0; left: 0; width: 100%; height: 100%; 
+    z-index: 1; pointer-events: none; 
   }
-
-  .qr-img {
-    width: 250px; /* تصغير الباركود قليلاً ليعطي مساحة للشعر خلفه */
-    border: 4px solid white;
-    border-radius: 20px;
-    box-shadow: 0 0 30px rgba(255,255,255,0.3);
-    z-index: 2200;
-    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-
-  /* التنسيقات العامة */
-  .bg-decor { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+  
   .symbol { position: absolute; font-size: 1.5rem; animation: fall linear infinite; }
+  
   @keyframes fall { 0% { transform: translateY(-10vh); opacity: 0.8; } 100% { transform: translateY(110vh); opacity: 0; } }
+  
   .container { z-index: 10; position: relative; padding: 20px; }
-  h1 { font-size: 2.5rem; margin-bottom: 20px; }
+  
+  h1 { font-size: 2.5rem; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+  
   .gift-img { width: 250px; max-width: 80%; border-radius: 15px; display: none; margin: 10px auto; animation: popIn 0.6s forwards; }
-  .btn { padding: 15px 35px; font-size: 1.2rem; background: #f7b731; color: #4b0082; border: none; border-radius: 50px; cursor: pointer; margin-top: 15px; font-family: 'Bungee Shade', cursive; }
+  
+  .btn { 
+    padding: 15px 35px; font-size: 1.2rem; 
+    background: #f7b731; color: #4b0082; 
+    border: none; border-radius: 50px; cursor: pointer; 
+    margin-top: 15px; font-family: 'Bungee Shade', cursive; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: 0.3s;
+  }
+  
+  .btn:hover { transform: scale(1.05); background: #ffcf66; }
+  
   #doubleBtn { background: #00ffcc; color: #240b36; display: none; }
+  
   @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
 </style>
 </head>
 <body>
 
-  <button class="danger-btn" onclick="goRomantic()">لاتدوسني 🙄</button>
-
-  <div id="romanticPage" class="romantic-overlay">
-    <div id="poem" class="poem-text">
-عيناكِ هل تدرينَ ما عيناكِ ؟ كوْنانِ لكن دونما أفلاكِ
-هل تقبلينَ أعيشُ دمعاً فيهما وإذا بكيتِ تُعيدني كفّاكِ
-إنّ الجمالَ من الشقاءِ فكلّما زادَ الجمالُ تجاوزاً أشقاكِ
-نجدية العينينِ يا من وجهها لجمالِهِ صعبٌ على الإدراكِ
-فلنقتسم كــومَ العلاقة بيننا ما فيهِ من زهـرٍ ومن أشــواكِ
-أنا فــارغٌ فلتملئيني جــيّــداً كالضوءِ يـمـلأ وحدةَ الشبّاكِ
-هذا الجمالُ ألا حدود تُعِيْقُهُ ؟ أوما انتهيتِ أو انتهى لذُراكِ ؟
-فتفهّمي ما لستُ أفهمهُ فقد بالغتِ في تعبي وفي إرباكي
-    </div>
-    
-    <h1 style="color: #ffcccc; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); z-index: 2200; margin-bottom: 20px;"> 👥 </h1>
-    <img src="qr.jpg" alt="QR Code" class="qr-img">
-  </div>
-
   <div class="bg-decor" id="decor"></div>
+
+  <div id="poem" class="poem-text">
+                         عیناكِ هل تدرينَ ما عيناكِ ؟
+    كوْنانِ لكن دونما أفلاكِ
+                         هل تقبلينَ أعيشُ دمعاً فيهما 
+    وإذا بكيتِ تُعيدني كفّاكِ
+                         إنّ الجمالَ من الشقاءِ فكلّما 
+  زادَ الجمالُ تجاوزاً أشقاكِ
+                         نجدية العينينِ يا من وجهها 
+    لجمالِهِ صعبٌ على الإدراكِ
+                      أنا فــارغٌ فلتملئيني جــيّــداً
+ كالضوءِ يـمـلأ وحدةَ الشبّاكِ
+                          هذا الجمال ألا حدودٌ تعيقهُ
+    أوما انتهيتِ أو انتهى لذُراكِ؟ 
+                               فتفهّمي ما لستُ أفهمه
+فقد بالغتِ في تعبي وفي إرباكي
+  </div>
 
   <div class="container">
     <h1>هابي عيد نورة 🫵🏼🎉</h1>
@@ -124,7 +108,7 @@
 
   <script>
     const decorContainer = document.getElementById('decor');
-    const normalIcons = ['🌙', '✨', '🕌', '⭐', '🎈'];
+    // الزينة ستكون رومانسية فوراً (ورود وقلوب)
     const romanticIcons = ['🌹', '❤️', '🌸', '💖', '🌷'];
     
     function createDecor(iconsArray) {
@@ -139,7 +123,8 @@
       }
     }
 
-    createDecor(normalIcons);
+    // البدء بالزينة الرومانسية فوراً عند الفتح
+    createDecor(romanticIcons);
 
     function openSurprise() {
       document.getElementById('moneyImg').style.display = 'block';
@@ -153,13 +138,6 @@
       document.getElementById('music2').play();
       document.getElementById('gorImg').style.display = 'block';
       document.getElementById('doubleBtn').style.display = 'none';
-    }
-
-    function goRomantic() {
-      document.getElementById('romanticPage').style.display = 'flex';
-      document.getElementById('poem').style.display = 'block';
-      createDecor(romanticIcons);
-      decorContainer.style.zIndex = "2500";
     }
   </script>
 </body>

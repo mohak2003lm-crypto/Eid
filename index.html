@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>عيد مبارك - نور</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Amiri:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
 <style>
   body {
     margin: 0; padding: 0;
-    /* خلفية الصفحة الرئيسية القرمزية الرومانسية */
-    background: linear-gradient(135deg, #a00000 0%, #4d0000 100%);
+    background: linear-gradient(to bottom, #6a0dad, #240b36);
     color: white; font-family: 'Bungee Shade', cursive;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
@@ -18,81 +17,96 @@
     position: relative;
   }
 
-  /* تنسيق الشعر: يظهر فوراً ويتحرك بسرعة متوازنة */
-  .poem-text {
+  /* التعديل الجديد: الزر بحجم الكلمة تماماً */
+  .danger-btn {
     position: absolute;
-    bottom: -600px; /* يبدأ من الأسفل */
-    width: 95%;
-    font-family: 'Amiri', serif;
-    font-size: 1.2rem;
-    color: rgba(255, 220, 220, 0.8);
-    z-index: 5; /* خلف المحتوى الرئيسي */
-    pointer-events: none;
-    white-space: pre-line;
-    line-height: 2.5; 
-    /* سرعة الحركة متوازنة (15 ثانية) */
-    animation: slideUp 15s linear infinite; 
-    display: block; /* ظاهر فوراً */
-  }
-
-  @keyframes slideUp {
-    0% { transform: translateY(0); opacity: 0; }
-    5% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-160vh); opacity: 0; }
-  }
-
-  .bg-decor { 
-    position: absolute;  top: 0; left: 0; width: 100%; height: 100%; 
-    z-index: 1; pointer-events: none; 
-  }
-  
-  .symbol { position: absolute; font-size: 1.5rem; animation: fall linear infinite; }
-  
-  @keyframes fall { 0% { transform: translateY(-10vh); opacity: 0.8; } 100% { transform: translateY(110vh); opacity: 0; } }
-  
-  .container { z-index: 10; position: relative; padding: 20px; }
-  
-  h1 { font-size: 2.5rem; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-  
-  .gift-img { width: 250px; max-width: 80%; border-radius: 15px; display: none; margin: 10px auto; animation: popIn 0.6s forwards; }
-  
-  .btn { 
-    padding: 15px 35px; font-size: 1.2rem; 
-    background: #f7b731; color: #4b0082; 
-    border: none; border-radius: 50px; cursor: pointer; 
-    margin-top: 15px; font-family: 'Bungee Shade', cursive; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    top: 80px; 
+    left: 30px;
+    /* جعل الحشوة متساوية وصغيرة ليلتصق بالكلمة */
+    padding: 8px 15px; 
+    font-size: 1.3rem;
+    background: #b30000;
+    color: white;
+    border: none;
+    border-radius: 8px; /* زوايا أقل حدة لتناسب الحجم الصغير */
+    cursor: pointer;
+    z-index: 1000;
     transition: 0.3s;
+    font-family: 'Bungee Shade', cursive;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    /* يضمن أن العرض يتحدد بمحتوى الكلمة فقط */
+    width: auto;
+    display: inline-block;
   }
-  
-  .btn:hover { transform: scale(1.05); background: #ffcf66; }
-  
+
+  .danger-btn:hover {
+    transform: scale(1.1);
+    background: #e60000;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+  }
+
+  .bg-decor {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1; pointer-events: none;
+  }
+
+  .symbol {
+    position: absolute; color: rgba(247, 183, 49, 0.4);
+    font-size: 1.5rem; animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  .container { z-index: 10; position: relative; padding: 20px; }
+
+  h1 { font-size: 2.5rem; margin-bottom: 20px; }
+
+  .gift-img {
+    width: 250px; max-width: 80%; border-radius: 15px;
+    display: none; margin: 10px auto;
+    animation: popIn 0.6s forwards;
+  }
+
+  .btn {
+    padding: 15px 35px; font-size: 1.2rem;
+    background: #f7b731; color: #4b0082;
+    border: none; border-radius: 50px; cursor: pointer;
+    margin-top: 15px; font-family: 'Bungee Shade', cursive;
+  }
+
   #doubleBtn { background: #00ffcc; color: #240b36; display: none; }
-  
+
+  .romantic-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #a00000 0%, #4d0000 100%);
+    z-index: 2000; display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  .qr-img {
+    width: 280px;
+    border: 5px solid white;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.3);
+    animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
   @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
 </style>
 </head>
 <body>
 
-  <div class="bg-decor" id="decor"></div>
+  <button class="danger-btn" onclick="goRomantic()">لاتدوسني 🙄</button>
 
-  <div id="poem" class="poem-text">
-                         عیناكِ هل تدرينَ ما عيناكِ ؟
-    كوْنانِ لكن دونما أفلاكِ
-                         هل تقبلينَ أعيشُ دمعاً فيهما 
-    وإذا بكيتِ تُعيدني كفّاكِ
-                         إنّ الجمالَ من الشقاءِ فكلّما 
-  زادَ الجمالُ تجاوزاً أشقاكِ
-                         نجدية العينينِ يا من وجهها 
-    لجمالِهِ صعبٌ على الإدراكِ
-                      أنا فــارغٌ فلتملئيني جــيّــداً
- كالضوءِ يـمـلأ وحدةَ الشبّاكِ
-                          هذا الجمال ألا حدودٌ تعيقهُ
-    أوما انتهيتِ أو انتهى لذُراكِ؟ 
-                               فتفهّمي ما لستُ أفهمه
-فقد بالغتِ في تعبي وفي إرباكي
+  <div id="romanticPage" class="romantic-overlay">
+    <h1 style="color: #ffcccc; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">  👥 </h1>
+    <img src="qr.jpg" alt="QR Code" class="qr-img">
   </div>
+
+  <div class="bg-decor" id="decor"></div>
 
   <div class="container">
     <h1>هابي عيد نورة 🫵🏼🎉</h1>
@@ -108,7 +122,7 @@
 
   <script>
     const decorContainer = document.getElementById('decor');
-    // الزينة ستكون رومانسية فوراً (ورود وقلوب)
+    const normalIcons = ['🌙', '✨', '🕌', '⭐', '🎈'];
     const romanticIcons = ['🌹', '❤️', '🌸', '💖', '🌷'];
     
     function createDecor(iconsArray) {
@@ -119,12 +133,12 @@
         span.innerText = iconsArray[Math.floor(Math.random() * iconsArray.length)];
         span.style.left = Math.random() * 100 + 'vw';
         span.style.animationDuration = (Math.random() * 4 + 2) + 's';
+        span.style.fontSize = (Math.random() * 1 + 1) + 'rem';
         decorContainer.appendChild(span);
       }
     }
 
-    // البدء بالزينة الرومانسية فوراً عند الفتح
-    createDecor(romanticIcons);
+    createDecor(normalIcons);
 
     function openSurprise() {
       document.getElementById('moneyImg').style.display = 'block';
@@ -138,6 +152,12 @@
       document.getElementById('music2').play();
       document.getElementById('gorImg').style.display = 'block';
       document.getElementById('doubleBtn').style.display = 'none';
+    }
+
+    function goRomantic() {
+      document.getElementById('romanticPage').style.display = 'flex';
+      createDecor(romanticIcons);
+      decorContainer.style.zIndex = "2500";
     }
   </script>
 </body>
